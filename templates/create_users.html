@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">Users</a></li>
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('create_users')}}">Create</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-secondary ">Add user</h5>
+    <p>The name is mandatory.
+        <br/> WhatsApp : Number in format 33 6 00 12 34 56
+        <br/>Gotify : Full link with token ( example : https://URL.OF.GOTIFY/message?token=XXXXXXXXX)
+        <br/>Telegram : Full link with token and app</p>
+
+<form method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name"
+               placeholder="Name" class="form-control"
+               value="{{ request.form['name'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email"
+               placeholder="email" class="form-control"
+               value="{{ request.form['email'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="text" name="whatsapp"
+               placeholder="" class="form-control"
+               value="{{ request.form['whatsapp'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="gotify">Gotify</label>
+        <input type="text" name="gotify"
+               placeholder="" class="form-control"
+               value="{{ request.form['gotify'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="telegram">Telegram</label>
+        <input type="text" name="telegram"
+               placeholder="" class="form-control"
+               value="{{ request.form['telegram'] }}"></input>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+</div>
+{% endblock %}

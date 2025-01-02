@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+    <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">Users</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">List</a></li>
+  </ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-info ">Edit user</h5>
+    <p>The name is mandatory.
+    <br/> WhatsApp : Number in format 33 6 00 12 34 56
+    <br/>Gotify : Full link with token ( example : https://URL.OF.GOTIFY/message?token=XXXXXXXXX)
+    <br/>Telegram : Full link with token and app</p>
+
+<form method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name"
+               placeholder="Name" class="form-control"
+               value="{{ request.form['name'] or post['name']}}"></input>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email"
+               placeholder="email" class="form-control"
+               value="{{ request.form['email'] or post['email']}}"></input>
+    </div>
+    <div class="form-group">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="text" name="whatsapp"
+               placeholder="3" class="form-control"
+               value="{{ request.form['whatsapp']or post['whatsapp'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="gotify">Gotify</label>
+        <input type="text" name="gotify"
+               placeholder="3" class="form-control"
+               value="{{ request.form['gotify']or post['gotify'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="telegram">Telegram</label>
+        <input type="text" name="telegram"
+               placeholder="3" class="form-control"
+               value="{{ request.form['telegram'] or post['telegram']}}"></input>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<hr>
+<form action="{{ url_for('delete', id=post['id']) }}" method="POST">
+    <input type="submit" value="Delete user"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Are you sure you want to delete this device?')">
+</form>
+</div>
+{% endblock %}

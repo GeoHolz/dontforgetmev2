@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">Users</a></li>
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">List</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-secondary ">Edit notify user</h5>
+    <p>Choose which birthday the user will be notified about</p>
+    <form method="post">
+      <table id="myTable" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Day-Month</th>
+            <th scope="col">GoogleID</th>
+            <th scope="col">Notify ?</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+        
+    
+              <tr>
+                <th scope="row">{{ post['id'] }}</th>
+                <td>{{ post['name'] }}</td>
+                <td>{{ post['date'] }}</td>
+                <td>{{ post['birthday_day_month'] }}</td>
+                <td>{{ post['googleid'] }}</td>
+                <td><input type="checkbox" name="id_selected" value="{{ post['googleid'] }}" {% if post["googleid"] in birthday_list_user %}checked{% endif %}/></td>
+    
+              </tr>
+    
+    
+       
+    {% endfor %}
+    </div>
+    </div>
+    </tbody>
+    </table>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+</div>
+
+{% endblock %}
+{% block dt %} 
+<script>
+  new DataTable('#myTable');
+  
+  </script>
+{% endblock %}

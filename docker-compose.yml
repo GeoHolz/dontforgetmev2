@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  dfm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      -  ./creds:/app/creds
+      -  ./config:/app/config
+      -  ./db:/app/db
+    ports:
+      - 8765:8765

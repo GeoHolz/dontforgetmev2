@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('index')}}">Dashboard</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-secondary ">Welcome</h5>
+    <p>Number of users : <span class="badge bg-secondary">{{ NbUser[0]  }}</span> <br/>
+    Number of contacts with synchronized birthdays from Google : <span class="badge bg-secondary">{{ NbBirthday[0]  }}</span></p>
+
+</div>
+
+{% endblock %}
+{% block dt %} 
+<script>
+  new DataTable('#myTable');
+  
+  </script>
+{% endblock %}

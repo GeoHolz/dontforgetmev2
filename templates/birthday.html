@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('index')}}">Dashboard</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-secondary ">List of birthday dates</h5>
+    <p>Anniversary dates are synchronized at the same time as notifications are sent to users.
+      1 time per day</p>
+    <table id="myTable" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Day-Month</th>
+            <th scope="col">GoogleID</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+        
+    
+              <tr>
+                <th scope="row">{{ post['id'] }}</th>
+                <td>{{ post['name'] }}</td>
+                <td>{{ post['date'] }}</td>
+                <td>{{ post['birthday_day_month'] }}</td>
+                <td>{{ post['googleid'] }}</td>
+    
+              </tr>
+    
+    
+       
+    {% endfor %}
+
+    </tbody>
+    </table>
+</div>
+
+{% endblock %}
+{% block dt %} 
+<script>
+  new DataTable('#myTable');
+  
+  </script>
+{% endblock %}

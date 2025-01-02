@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.menu.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+  
+
+	<title>Dashboard</title>
+
+</head>
+
+<body class="bg-light">
+
+<header>
+	<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+		<div class="container-fluid">
+
+			<!-- title -->
+			<a class="navbar-brand" href="#"><i class="fa-solid fa-mug-hot px-1 text-purple"></i>
+				<span class="text-purple fw-semibold">{% block title %} {% endblock %}</span>
+			</a>
+
+			<!-- sidebar toggle -->
+			<button class="navbar-toggler btn btn-link border-0" type="button" id="sidebar" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- navbar navigation -->
+			<div class="collapse navbar-collapse">
+				{% block navbar %} {% endblock %}
+				<!-- breadcrumb -->
+
+			</div>
+		</div>
+	</nav>
+</header>
+
+<div class="d-flex wrapper wrapper-navbar-used wrapper-navbar-fixed">
+	<nav role="navigation" class="sidebar sidebar-bg-white sidebar-rounded-top-right shadow-sm" id="navigation">
+
+		<!-- sidebar -->
+		<div class="sidebar-menu">
+
+			<!-- menu fixed -->
+			<div class="sidebar-menu-fixed">
+
+				<!-- menu scrollbar -->
+				<div class="scrollbar scrollbar-use-navbar scrollbar-bg-white">
+
+					<!-- menu -->
+
+
+					<!-- menu -->
+					<ul class="list list-unstyled list-bg-white list-icon-purple mb-0">
+
+						<!-- multi-level dropdown menu -->
+						<li class="list-item">
+
+							<!-- list title -->
+							<p class="list-title text-uppercase">System</p>
+
+							<!-- list items -->
+							<ul class="list-unstyled">
+								<li><a href="{{ url_for('index')}}" class="list-link {%- if request.path == '/' %} link-current{% endif %}"><span class="list-icon"><i class="fa-solid fa-mug-hot bell"></i></span>Dashboard</a></li>
+								<li><a href="#" class="list-link {%- if request.path == '/users' %} link-current{% endif %}{%- if request.path == '/create_users' %} link-current{% endif %} link-arrow"><span class="list-icon"><i class="fa-solid fa-user bell"></i></span>Users</a>
+
+									<!-- list items, second level -->
+									<ul class="list-unstyled list-hidden">
+										<li><a href="{{ url_for('list_users')}}" class="list-link">List</a></li>
+										<li><a href="{{ url_for('create_users')}}" class="list-link">Add</a></li>
+									</ul>
+								</li>
+								<li><a href="{{ url_for('birthday')}}" class="list-link"><span class="list-icon"><i class="fa-solid fa-plus bell"></i></span>Birthday list</a></li>
+								
+
+							</ul>
+						</li>
+
+						<!-- multi-level dropdown menu -->
+
+						<!-- simple menu -->
+						<li class="list-item">
+
+							<!-- list title -->
+							<p class="list-title text-uppercase">Action</p>
+
+							<!-- list items -->
+							<ul class="list-unstyled">
+								<li><a href="{{ url_for('test_not')}}" class="list-link"><span class="list-icon"><i class="fa-regular fa-bell bell"></i></span>Notify User</a></li>
+								<li><a href="{{ url_for('sync_db')}}" class="list-link"><span class="list-icon"><i class="fa-regular fa-bell bell"></i></span>Sync DB</a></li>
+								<li><a href="{{ url_for('test_admin')}}" class="list-link"><span class="list-icon"><i class="fa-regular fa-bell bell"></i></span>Test</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		
+		<!-- content -->
+		<main role="main">
+			<!-- full box -->
+
+			{% block content %} {% endblock %}
+
+
+
+		</main>
+		
+
+		<!-- license rights, do not delete this piece of code -->
+		<footer class="text-end mt-3 mb-3">
+			<p class="text-silver">Code licensed
+				<a href="https://github.com/compostrap/dashboard-skeleton/blob/master/license.md" class="text-muted" target="_blank" rel="license noopener">MIT</a>
+			</p>
+		</footer>
+	</div>
+</div>
+
+<!-- javascript library -->
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar.menu.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+{% block dt %} {% endblock %}
+</body>
+</html>
