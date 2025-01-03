@@ -1,19 +1,27 @@
 import sqlite3
 import time
+import os
+import pandas as pd
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 from dotenv import load_dotenv
+from fileinput import filename
+from werkzeug.utils import secure_filename
 import function
+
+from datetime import datetime
 load_dotenv()
 
 from flask_apscheduler import APScheduler
 scheduler = APScheduler()
 @scheduler.task('cron', id='do_job_2', minute="6",hour="6",misfire_grace_time=3600)
 def job2():
-    function.sync_db()
     function.notify_users()
 scheduler.start() 
 
+ 
+# Define allowed files
+ALLOWED_EXTENSIONS = {'csv'}
 
 def get_db_connection():
     conn = sqlite3.connect('db/app.db')
@@ -37,6 +45,10 @@ def get_settings():
         return post[0]
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
+# Upload folder
+UPLOAD_FOLDER = 'db'
+app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+app.config["DEBUG"] = True
 @app.template_filter('ctime')
 def timectime(s):
     return time.ctime(s) # datetime.datetime.fromtimestamp(s)
@@ -94,6 +106,35 @@ def create_users():
             return redirect(url_for('list_users'))
     
     return render_template('create_users.html')
+@app.route('/import_csv', methods=('GET', 'POST'))
+def import_csv():
+    if request.method == 'POST':
+        print("ok")
+        uploaded_file = request.files['file']
+        if uploaded_file.filename != '':
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], "db.csv" )
+            # set the file path
+            uploaded_file.save(file_path)
+            # save the file
+        conn = get_db_connection()
+        # Use Pandas to parse the CSV file
+        csvData = pd.read_csv("db/db.csv")
+        # Loop through the Rows
+        for i,row in csvData.iterrows():
+                if pd.notnull(row['Birthday']):
+                    name=row['First Name']+" "+row['Last Name']
+                    print(name)
+                    print(row['Birthday'])
+                    date_obj=datetime.strptime(row['Birthday'],"%Y-%m-%d")
+                    birthday=date_obj.strftime("%d-%m-%Y")
+                    birthday_day_month=date_obj.strftime("%d-%m")
+                    id=row['First Name'][:2]+row['Last Name'][:2]+date_obj.strftime("%d-%m-%Y")
+                    conn.execute('INSERT OR IGNORE INTO birthday (name ,date,birthday_day_month,googleid ) VALUES (?,?,?,?)',(name, birthday,birthday_day_month,id))
+
+        
+        conn.commit()
+        conn.close()
+    return render_template('importcsv.html')
 
 @app.route('/settings', methods=('GET', 'POST'))
 def settings():

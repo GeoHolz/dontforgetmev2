@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+Don't Forget Birthday
+{% endblock %}
+{% block navbar %}
+<ul class="navbar-nav navbar-nav-breadcrumb">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('list_users')}}">Users</a></li>
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('create_users')}}">Create</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div class="content-box mb-3 bg-white shadow-sm border border-2 border-secondary">
+    <h5 class="bg-secondary ">Add user</h5>
+    <p>The name is mandatory.</p>
+
+<form method="POST" action="" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="file" name="file" accept=".csv">
+        <input type = "submit" value="Upload">  
+    </div>
+</form>
+</div>
+{% endblock %}

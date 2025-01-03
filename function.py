@@ -78,8 +78,7 @@ def list_db():
 def list_db_date(search_data):
   conn = get_db_connection()
   
-  if search_data[0] == "0":
-     search_data=search_data[1:] 
+
  #print("Variable search_data dans la fonction list_db_date =",search_data)
   results=conn.execute('SELECT * FROM birthday WHERE birthday_day_month = ?',(search_data,)).fetchall()
   conn.close()
@@ -121,11 +120,11 @@ def get_birthday():
 def get_birthday_user(user):
   now = date.today()
  #print("Variable now = ?",now)
-  list_date=(0,3,7,14)
+  list_date=(0,3,7,6,8,14)
   list_notify=[]
   user_googleid_list=list_db_googleid_for_user(user)
   for search_date in  list_date:
-    search=(now + timedelta(days=search_date)).strftime("%d-%m").replace("-0","-")
+    search=(now + timedelta(days=search_date)).strftime("%d-%m")
     print("Variable search = ?",search)
     results=list_db_date(search)
     print("Variable result = ?",results)
@@ -144,7 +143,7 @@ def get_birthday_user(user):
   if len(list_notify) > 0:
     for x in list_notify:
         text_notify += x
-    text_notify += "\n Message envoyé automatiquement."
+    text_notify += "\n Message envoyé automatiquement.V2S"
     return text_notify
   else:
       return "STOP"
