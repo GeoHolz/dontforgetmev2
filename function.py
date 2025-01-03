@@ -16,7 +16,6 @@ from dateutil import relativedelta
 # Basic configuration settings (user replaceable)
 configFile = open('config/configGH.json')
 config = json.load(configFile)
-birthday_calendars = config['birthday_calendars'] # Google Calendar IDs
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/contacts.readonly"]
