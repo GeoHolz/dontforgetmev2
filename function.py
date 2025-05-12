@@ -1,7 +1,5 @@
-import os.path
 import sqlite3
 import os
-import json
 import json
 import smtplib
 from email.mime.text import MIMEText
@@ -22,7 +20,8 @@ if not os.path.exists(config_path):
     default_config = {
         "displayTZ": "Europe/Paris",
         "email_sender": "XXX@gmail.com",
-        "email_password": "MY_PASSWORD_APP"
+        "email_password": "MY_PASSWORD_APP",
+        "whatsapp_api_url": "http://192.168.0.1:3216/api/sendText"  # Ajout de l'URL de l'API WhatsApp
     }
     with open(config_path, 'w') as f:
         json.dump(default_config, f, indent=4)
@@ -121,7 +120,7 @@ def get_birthday_user(user):
   if len(list_notify) > 0:
     for x in list_notify:
         text_notify += x
-    text_notify += "\n Message envoyé automatiquement.V2S"
+    text_notify += "\n Message envoyé automatiquement. v2"
     return text_notify
   else:
       return "STOP"
@@ -185,8 +184,9 @@ def send_whatsapp(body,recipients):
     :param text: Message for the recipient
     """
     # Send a text back via WhatsApp HTTP API
+    whatsapp_api_url = config['whatsapp_api_url'] 
     response = requests.post(
-        "http://192.168.80.151:3216/api/sendText",
+        whatsapp_api_url,
         json={
             "chatId": recipients,
             "text": body,
