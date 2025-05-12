@@ -27,7 +27,7 @@
 
 ---
 
-## 🛠️ Installation rapide
+## 🛠️ Installation rapide (sans Docker)
 
 1. **Cloner le dépôt** :
    ```bash
@@ -53,7 +53,29 @@
    ```bash
    python wsgi.py
    ```
-   Puis accéder à [http://localhost:5000](http://localhost:5000).
+   Accéder ensuite à [http://localhost:5000](http://localhost:5000).
+
+---
+
+## 🐳 Utilisation avec Docker
+
+L'image est disponible directement sur **DockerHub** :  
+👉 **[GeoHolz/dontforgetme](https://hub.docker.com/r/geoholz/dontforgetme)**
+
+### Lancer rapidement un conteneur :
+
+```bash
+docker run -d   -p 8765:8765   --name dontforgetme   geoholz/dontforgetme
+```
+
+### Avec volumes pour persister les données :
+
+```bash
+docker run -d   -p 8765:8765   --name dontforgetme   -v /path/local/db:/app/db   -v /path/local/config:/app/config   geoholz/dontforgetme
+```
+
+- `/path/local/db` : dossier local où sera stockée la base SQLite (`app.db`)
+- `/path/local/config` : dossier local pour le fichier `config.json` de configuration
 
 ---
 
@@ -67,10 +89,16 @@ Les colonnes suivantes sont utilisées :
 
 ---
 
+## 📲 À propos de l'API WhatsApp locale
+
+Pour envoyer des notifications WhatsApp, utilisez une API locale comme **[WaHA (WhatsApp HTTP API)](https://github.com/devlikeapro/waha)**.
+
+---
+
 ## 🔒 Sécurité
 
 - Le mot de passe email et l'URL de l'API WhatsApp doivent être protégés.
-- Utiliser des fichiers `.env` ou des configurations sécurisées en production.
+- Utiliser des fichiers `.env` ou des montages de volumes sécurisés en production.
 
 ---
 
@@ -83,7 +111,7 @@ Les colonnes suivantes sont utilisées :
 - **APScheduler**
 - **SMTP (smtplib)** pour l'envoi d'emails
 - **Gotify API**
-- **WhatsApp HTTP API** (API locale)
+- **WhatsApp HTTP API** (via WaHA)
 
 ---
 
@@ -95,5 +123,7 @@ Les colonnes suivantes sont utilisées :
 
 ## 📜 Licence
 
-Projet disponible sous licence MIT.  
+Projet disponible sous licence **MIT**.  
 Libre à vous de l'utiliser, le modifier et le partager !
+
+---

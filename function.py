@@ -1,5 +1,7 @@
 import os.path
 import sqlite3
+import os
+import json
 import json
 import smtplib
 from email.mime.text import MIMEText
@@ -9,11 +11,25 @@ from datetime import datetime
 from datetime import timedelta
 from dateutil import relativedelta
 # Basic configuration settings (user replaceable)
-configFile = open('config/configGH.json')
-config = json.load(configFile)
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/contacts.readonly"]
+config_dir = 'config'
+config_path = os.path.join(config_dir, 'config.json')
+
+# Si le config.json n'existe pas, le créer
+if not os.path.exists(config_path):
+    print("[INFO] config.json non trouvé, création du fichier...")
+    os.makedirs(config_dir, exist_ok=True)
+    default_config = {
+        "displayTZ": "Europe/Paris",
+        "email_sender": "XXX@gmail.com",
+        "email_password": "MY_PASSWORD_APP"
+    }
+    with open(config_path, 'w') as f:
+        json.dump(default_config, f, indent=4)
+
+# Maintenant on peut ouvrir sans problème
+with open(config_path) as configFile:
+    config = json.load(configFile)
 
 def get_db_connection():
     conn = sqlite3.connect('db/app.db')

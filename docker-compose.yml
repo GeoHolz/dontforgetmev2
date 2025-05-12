@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      -  ./creds:/app/creds
       -  ./config:/app/config
       -  ./db:/app/db
     ports:
