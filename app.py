@@ -76,10 +76,6 @@ def test_not():
 def test_admin():
     function.notify_users_test()
     return redirect(url_for('index'))
-@app.route('/sync_db')
-def sync_db():
-    function.sync_db()
-    return redirect(url_for('index'))
 
 @app.route('/users')
 def list_users():

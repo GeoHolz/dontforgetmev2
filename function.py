@@ -1,10 +1,5 @@
 import os.path
 import sqlite3
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 import json
 import smtplib
 from email.mime.text import MIMEText
@@ -20,44 +15,12 @@ config = json.load(configFile)
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/contacts.readonly"]
 
-
-def connect_google_api():
-  """Shows basic usage of the People API.
-  Prints the name of the first 10 connections.
-  """
-  creds = None
-  # The file token.json stores the user's access and refresh tokens, and is
-  # created automatically when the authorization flow completes for the first
-  # time.
-  if os.path.exists("creds/token.json"):
-    creds = Credentials.from_authorized_user_file("creds/token.json", SCOPES)
-  # If there are no (valid) credentials available, let the user log in.
-  if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-      creds.refresh(Request())
-    else:
-      flow = InstalledAppFlow.from_client_secrets_file(
-          "creds/credentials.json", SCOPES
-      )
-      creds = flow.run_local_server(port=0)
-    # Save the credentials for the next run
-    with open("creds/token.json", "w") as token:
-      token.write(creds.to_json())
-    
-  return creds
-
 def get_db_connection():
     conn = sqlite3.connect('db/app.db')
     conn.row_factory = sqlite3.Row
     return conn
 
 def add_user(name, email,whatsapp,gotify,telegram):
-  conn = get_db_connection()
-  conn.execute('INSERT INTO users (name ,email ,whatsapp ,gotify,telegram ) VALUES (?,?,?,?,?)',(name, email,whatsapp,gotify,telegram))
-  conn.commit()
-  conn.close()
-
-def edit_user(name, email,whatsapp,gotify,telegram):
   conn = get_db_connection()
   conn.execute('INSERT INTO users (name ,email ,whatsapp ,gotify,telegram ) VALUES (?,?,?,?,?)',(name, email,whatsapp,gotify,telegram))
   conn.commit()
@@ -188,41 +151,6 @@ def notify_users_test():
         send_gotify(text_notify,user["gotify"]) 
   else:
       print("Rien à envoyer")
-
-def sync_db():
-  creds=connect_google_api()
-  conn = get_db_connection()
-  try:
-    service = build("people", "v1", credentials=creds)
-
-    # Call the People API
-    results = (
-        service.people()
-        .connections()
-        .list(
-            resourceName="people/me",
-            pageSize=2000,
-            personFields="names,birthdays",
-        )
-        .execute()
-    )
-    connections = results.get("connections", [])
-    for person in connections:
-      names = person.get("names", [])
-      
-      birthdays = person.get("birthdays", [])
-      if birthdays:
-        birthday_day_month = str(birthdays[0].get("date")["day"])+ "-" + str(birthdays[0].get("date")["month"])
-        birthday=str(birthdays[0].get("date")["day"])+ "-" + str(birthdays[0].get("date")["month"])  + "-" + str(birthdays[0].get("date")["year"]) 
-        id=names[0].get("metadata")["source"]["id"]
-        name = names[0].get("displayName")
-        conn.execute('INSERT OR IGNORE INTO birthday (name ,date,birthday_day_month,googleid ) VALUES (?,?,?,?)',(name, birthday,birthday_day_month,id))
-
-  except HttpError as err:
-    print(err)
-  conn.commit()
-  print("SyncDB Google OK")
-  conn.close()
 
 def send_email(body,recipients):
     msg = MIMEText(body)
