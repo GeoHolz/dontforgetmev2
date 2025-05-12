@@ -21,7 +21,7 @@ if not os.path.exists(config_path):
         "displayTZ": "Europe/Paris",
         "email_sender": "XXX@gmail.com",
         "email_password": "MY_PASSWORD_APP",
-        "whatsapp_api_url": "http://192.168.0.1:3216/api/sendText"  # Ajout de l'URL de l'API WhatsApp
+        "whatsapp_api_url": "http://192.168.0.1:3216/api/sendText"
     }
     with open(config_path, 'w') as f:
         json.dump(default_config, f, indent=4)
